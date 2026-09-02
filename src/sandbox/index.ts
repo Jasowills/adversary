@@ -47,30 +47,32 @@ export function createSandbox(config: SandboxConfig): Sandbox {
   }
 
   async function startProcess() {
-    // try common start commands
+    // try common start commands — prefer direct node over npm start for clean termination in CI
     const pkgPath = join(projectPath, "package.json");
     let cmd = "node";
     let args: string[] = [];
-    if (existsSync(pkgPath)) {
+    // Prefer explicit server.js if present (e.g., vulnerable-app)
+    if (existsSync(join(projectPath, "server.js"))) {
+      args = ["server.js"];
+    } else if (existsSync(join(projectPath, "dist/index.js"))) {
+      args = ["dist/index.js"];
+    } else if (existsSync(join(projectPath, "src/index.js"))) {
+      args = ["src/index.js"];
+    } else if (existsSync(pkgPath)) {
       try {
         const pkg = JSON.parse(readFileSync(pkgPath, "utf8"));
         if (pkg.scripts?.start) {
           cmd = "npm";
           args = ["start"];
-        } else if (existsSync(join(projectPath, "dist/index.js"))) {
-          args = ["dist/index.js"];
-        } else if (existsSync(join(projectPath, "server.js"))) {
-          args = ["server.js"];
-        } else if (existsSync(join(projectPath, "src/index.js"))) {
-          args = ["src/index.js"];
         } else {
-          // try to find examples vulnerable app
           throw new Error("No start command found");
         }
       } catch (e) {
         // fallback
         if (args.length === 0) throw e;
       }
+    } else {
+      throw new Error("No start command found");
     }
 
     const mergedEnv = { ...process.env, PORT: String(port), NODE_ENV: "test", ...env } as Record<string, string>;
@@ -110,7 +112,14 @@ export function createSandbox(config: SandboxConfig): Sandbox {
         await stopDocker();
       }
       if (child) {
-        try { child.kill("SIGTERM"); } catch {}
+        try {
+          child.kill("SIGTERM");
+          // give it a moment, then force kill
+          await sleep(1000);
+          if (!child.killed) {
+            try { child.kill("SIGKILL"); } catch {}
+          }
+        } catch {}
         child = null;
       }
     },
