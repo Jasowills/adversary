@@ -1,0 +1,15 @@
+{
+  "name": "vulnerable-app",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Deliberately vulnerable demo app for Adversary QA — DO NOT USE IN PRODUCTION",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.0",
+    "cors": "^2.8.5"
+  }
+}

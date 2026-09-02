@@ -1,0 +1,11 @@
+.env
+*.log
+adversary-results/
+node_modules/
+examples/
+tests/
+.github/
+.vscode/
+.idea/
+coverage/
+*.tgz

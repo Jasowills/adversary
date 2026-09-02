@@ -1,0 +1,8 @@
+node_modules/
+dist/
+adversary-results/
+**/adversary-results/
+coverage/
+.env
+*.log
+.DS_Store

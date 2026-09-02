@@ -1,0 +1,67 @@
+{
+  "name": "adversary",
+  "version": "0.1.0",
+  "description": "Adversarial QA for AI-generated software. Give your coding agent something that fights back.",
+  "keywords": [
+    "ai",
+    "agents",
+    "agent-skills",
+    "qa",
+    "testing",
+    "software-testing",
+    "developer-tools",
+    "claude-code",
+    "opencode",
+    "playwright",
+    "mutation-testing",
+    "security-testing",
+    "chaos-testing"
+  ],
+  "license": "MIT",
+  "author": "Adversary Contributors",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adversary-ai/adversary.git"
+  },
+  "homepage": "https://github.com/adversary-ai/adversary#readme",
+  "bugs": {
+    "url": "https://github.com/adversary-ai/adversary/issues"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "bin": {
+    "adversary": "./dist/cli/index.js"
+  },
+  "files": [
+    "dist",
+    "skills",
+    ".claude-plugin",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint src --ext .ts 2>&1 || echo \"lint: no eslint config yet, skipping\"",
+    "typecheck": "tsc --noEmit",
+    "inspect": "node dist/cli/index.js inspect",
+    "run": "node dist/cli/index.js run",
+    "prepare": "npm run build"
+  },
+  "dependencies": {
+    "commander": "^12.1.0",
+    "chalk": "^5.3.0",
+    "ora": "^8.0.1",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  }
+}

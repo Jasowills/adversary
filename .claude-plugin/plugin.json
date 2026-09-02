@@ -1,0 +1,14 @@
+{
+  "name": "adversary",
+  "version": "0.1.0",
+  "description": "Adversarial QA for AI-generated software — the QA engineer your coding agent can't fool.",
+  "author": {
+    "name": "Adversary Contributors",
+    "url": "https://github.com/adversary-ai/adversary"
+  },
+  "homepage": "https://github.com/adversary-ai/adversary",
+  "repository": "https://github.com/adversary-ai/adversary",
+  "license": "MIT",
+  "keywords": ["qa", "testing", "adversarial", "agent-skills", "playwright", "mutation-testing", "security-testing"],
+  "skills": "./skills/adversary/SKILL.md"
+}

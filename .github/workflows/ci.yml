@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+
+  vulnerable-demo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: |
+          npm --prefix examples/vulnerable-app ci
+          node dist/cli/index.js run ./examples/vulnerable-app --mode full
+          cat ./examples/vulnerable-app/adversary-results/report.json
+          jq -e '.findings.high >= 1' ./examples/vulnerable-app/adversary-results/report.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: adversary-results
+          path: examples/vulnerable-app/adversary-results/
+
+  skill-structure:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          test -f skills/adversary/SKILL.md
+          test -f skills/adversary/references/qa-principles.md
+          test -f skills/adversary/references/api-testing.md
+          test -f .claude-plugin/plugin.json
+          echo "Skill structure OK"
