@@ -33,9 +33,10 @@ jobs:
       - run: npm run build
       - run: |
           npm --prefix examples/vulnerable-app ci
-          node dist/cli/index.js run ./examples/vulnerable-app --mode full
+          node dist/cli/index.js run ./examples/vulnerable-app --mode full || true
           cat ./examples/vulnerable-app/adversary-results/report.json
           jq -e '.findings.high >= 1' ./examples/vulnerable-app/adversary-results/report.json
+          echo "Adversary found High findings as expected (NOT_READY is correct for vulnerable demo)"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
