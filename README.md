@@ -62,7 +62,7 @@ Copy the skill into your project or install as a plugin:
 
 ```bash
 # Claude Code — local plugin
-git clone https://github.com/adversary-ai/adversary
+git clone https://github.com/Jasowills/adversary
 # in Claude Code: /plugin add ./adversary  or  claude --plugin-dir ./adversary
 ```
 
@@ -89,7 +89,7 @@ node dist/cli/index.js run ./examples/vulnerable-app
 ## Quick start
 
 ```bash
-git clone https://github.com/adversary-ai/adversary
+git clone https://github.com/Jasowills/adversary
 cd adversary
 npm install
 npm run build
@@ -259,7 +259,7 @@ We do **not** publish automatically. Prepare, then publish deliberately:
 
 ```bash
 # 1. GitHub
-gh repo create adversary-ai/adversary --public --source=. --remote=origin
+gh repo create Jasowills/adversary --public --source=. --remote=origin
 git push -u origin main
 
 # 2. Test Claude plugin

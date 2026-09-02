@@ -21,11 +21,11 @@
   "author": "Adversary Contributors",
   "repository": {
     "type": "git",
-    "url": "https://github.com/adversary-ai/adversary.git"
+    "url": "https://github.com/Jasowills/adversary.git"
   },
-  "homepage": "https://github.com/adversary-ai/adversary#readme",
+  "homepage": "https://github.com/Jasowills/adversary#readme",
   "bugs": {
-    "url": "https://github.com/adversary-ai/adversary/issues"
+    "url": "https://github.com/Jasowills/adversary/issues"
   },
   "type": "module",
   "engines": {
@@ -55,8 +55,6 @@
   },
   "dependencies": {
     "commander": "^12.1.0",
-    "chalk": "^5.3.0",
-    "ora": "^8.0.1",
     "zod": "^3.23.0"
   },
   "devDependencies": {

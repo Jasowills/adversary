@@ -5,7 +5,7 @@ Thanks for helping make verification autonomous.
 ## Quick start
 
 ```bash
-git clone https://github.com/adversary-ai/adversary
+git clone https://github.com/Jasowills/adversary
 cd adversary
 npm install
 npm run build
