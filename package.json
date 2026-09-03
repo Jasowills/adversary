@@ -55,7 +55,7 @@
     "prepare": "npm run build"
   },
   "dependencies": {
-    "commander": "^12.1.0",
+    "commander": "^15.0.0",
     "zod": "^3.23.0"
   },
   "devDependencies": {
