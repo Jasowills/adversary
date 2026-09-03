@@ -1,6 +1,6 @@
 # Adversary
 
-[![skills.sh](https://skills.sh/b/Jasowills/adversary)](https://skills.sh/Jasowills/adversary)
+[![skills.sh](https://skills.sh/b/jasowills/adversary)](https://skills.sh/jasowills/adversary)
 
 ### The QA engineer your coding agent can't fool.
 
