@@ -6,6 +6,6 @@ Be kind, be precise, be adversarial — toward code, not people.
 
 - Harassment, discrimination, or personal attacks are not tolerated.
 - Critique ideas and implementations, not individuals.
-- Report issues to maintainers via GitHub or `conduct@adversary.dev`.
+- Report issues to maintainers via GitHub or `jasowills01@gmail.com`.
 
 Enforcement: maintainers will review and respond within 72 hours.

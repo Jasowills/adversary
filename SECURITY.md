@@ -7,7 +7,7 @@ Adversary is a defensive QA tool — it tests your application's security bounda
 If you find a security vulnerability **in Adversary itself** (not in an app it tests), please report it responsibly:
 
 1. **Do not** open a public issue.
-2. Email: `security@adversary.dev` (or open a private security advisory on GitHub: `Security → Report a vulnerability`).
+2. Email: `jasowills01@gmail.com` (or open a private security advisory on GitHub: `Security → Report a vulnerability`).
 3. Include: description, reproduction, impact, and suggested fix if known.
 
 We aim to acknowledge within 48 hours and release a fix within 14 days for critical issues.
