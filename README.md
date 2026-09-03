@@ -78,7 +78,9 @@ Then invoke:
 ### CLI (npx)
 
 ```bash
-npx adversary run ./examples/vulnerable-app
+npx adversary-qa run ./examples/vulnerable-app
+# also available as `adversary` after install:
+# npx adversary run ./examples/vulnerable-app
 # or after clone
 npm install && npm run build
 node dist/cli/index.js run ./examples/vulnerable-app

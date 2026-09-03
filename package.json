@@ -1,5 +1,5 @@
 {
-  "name": "adversary",
+  "name": "adversary-qa",
   "version": "0.1.0",
   "description": "Adversarial QA for AI-generated software. Give your coding agent something that fights back.",
   "keywords": [
@@ -21,7 +21,7 @@
   "author": "Adversary Contributors",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Jasowills/adversary.git"
+    "url": "git+https://github.com/Jasowills/adversary.git"
   },
   "homepage": "https://github.com/Jasowills/adversary#readme",
   "bugs": {
@@ -32,7 +32,8 @@
     "node": ">=18.0.0"
   },
   "bin": {
-    "adversary": "./dist/cli/index.js"
+    "adversary": "dist/cli/index.js",
+    "adversary-qa": "dist/cli/index.js"
   },
   "files": [
     "dist",
