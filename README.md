@@ -56,12 +56,23 @@ Adversary does not claim to replace human QA. It operationalizes what makes huma
 
 ## Install
 
-### Agent Skill (Claude Code / OpenCode / Copilot)
+### Agent Skill (Claude Code / OpenCode / Copilot / Cursor / 70+ agents)
 
-Copy the skill into your project or install as a plugin:
+**Standard (Vercel Skills CLI — works for all agents):**
 
 ```bash
-# Claude Code — local plugin
+npx skills add Jasowills/adversary
+# picks agents interactively, or target specific ones:
+npx skills add Jasowills/adversary -a claude-code -a opencode -a cursor -y
+# global (all projects):
+npx skills add Jasowills/adversary -g -y
+# list without installing:
+npx skills add Jasowills/adversary --list
+```
+
+**Claude Code plugin (alternative):**
+
+```bash
 git clone https://github.com/Jasowills/adversary
 # in Claude Code: /plugin add ./adversary  or  claude --plugin-dir ./adversary
 ```
