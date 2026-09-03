@@ -1,220 +1,144 @@
 # Adversary
 
-[![skills.sh](https://skills.sh/b/jasowills/adversary)](https://skills.sh/jasowills/adversary)
+[![skills.sh](https://skills.sh/b/jasowills/adversary)](https://skills.sh/jasowills/adversary) [![npm](https://img.shields.io/npm/v/adversary-qa)](https://www.npmjs.com/package/adversary-qa)
 
 ### The QA engineer your coding agent can't fool.
 
-Your AI agent wrote the code.
+Your agent wrote the code. Wrote the tests. Ran the tests. Everything passed.
 
-Your AI agent wrote the tests.
+So who actually tried to break it?
 
-Your AI agent ran the tests.
+**Adversary does.**
 
-Everything passed.
-
-**So who tried to break it?**
-
-**Adversary.**
+> Give your coding agent something that fights back.
 
 ---
 
-> Adversarial QA for AI-generated software. Give your coding agent something that fights back.
+## What this is
 
-```
-AI agents made software generation autonomous.
-Adversary makes software verification autonomous.
-```
+Most AI-generated code gets tested by the same agent that wrote it. That's a closed loop — the tests confirm what the agent already believes.
 
-Adversary is not another test generator. It is an **adversarial QA skill** that behaves like a skeptical senior QA engineer — inspecting your app, hypothesizing how it fails, attacking it in a disposable sandbox, and bringing back evidence.
+Adversary breaks the loop. It's a skeptical QA skill that inspects your app, guesses how it fails, attacks it in a throwaway sandbox, and comes back with proof.
 
-```
-Your coding agent builds it.
-Adversary attacks it.
-The sandbox contains it.
-Evidence proves what happened.
-```
+Not a test generator. A test of your tests.
 
----
+- **Builds a map** of what your app tries to do (routes, auth, DB, UI)
+- **Plans like a QA lead** — payments and auth get more attention than a todo list
+- **Attacks like a user** — double submits, stale pages, expired sessions, concurrent requests, bad auth
+- **Proves it** — every finding has a reproduction, request traces, DB snapshots, and logs
 
-## Why
+If it says `READY`, it has evidence. If it says `NOT_READY`, it can show you why.
 
-AI has a blind spot: **it trusts itself.**
-
-```
-Agent writes code
-  → Agent writes tests
-  → Agent runs tests
-  → Tests pass
-  → Agent declares success
-
-Who tried to double-submit, replay, race, or bypass auth?
-```
-
-Adversary separates **creation from verification**.
-
-Adversary does not claim to replace human QA. It operationalizes what makes human QA valuable: skepticism, exploratory sequences, stateful workflows, adversarial thinking, failure injection, evidence collection, and reproduction.
+Adversary doesn't replace human QA. It just does the annoying, adversarial parts a good human would do, automatically.
 
 ---
 
 ## Install
 
-### Agent Skill (Claude Code / OpenCode / Copilot / Cursor / 70+ agents)
-
-**Standard (Vercel Skills CLI — works for all agents):**
+**Skill (Claude Code, Cursor, Copilot, OpenCode, 70+ agents):**
 
 ```bash
-npx skills add Jasowills/adversary
-# picks agents interactively, or target specific ones:
-npx skills add Jasowills/adversary -a claude-code -a opencode -a cursor -y
-# global (all projects):
-npx skills add Jasowills/adversary -g -y
-# list without installing:
-npx skills add Jasowills/adversary --list
+npx skills add jasowills/adversary
+# pick agents interactively, or:
+npx skills add jasowills/adversary -a claude-code -a opencode -y
+npx skills add jasowills/adversary -g -y  # global
 ```
 
-**One-liner via adversary-qa (like `npx impeccable install`):**
+One-liner alias (same thing):
 
 ```bash
 npx adversary-qa install
-# or globally: npx adversary-qa install -g -y
-# equivalent to `npx skills add Jasowills/adversary`
+npx adversary-qa install -g -y -a claude-code
 ```
 
-**Claude Code plugin (alternative):**
+**CLI:**
 
 ```bash
-git clone https://github.com/Jasowills/adversary
-# in Claude Code: /plugin add ./adversary  or  claude --plugin-dir ./adversary
+npx adversary-qa run ./your-app
+# after install, both work:
+# adversary run ./your-app
+# adversary-qa run ./your-app
 ```
 
-Then invoke:
+Inside any supported agent, run:
 
 ```
-/adversary full
-/adversary api
-/adversary security
-/adversary mutation
-```
-
-### CLI (npx)
-
-```bash
-npx adversary-qa run ./examples/vulnerable-app
-# also available as `adversary` after install:
-# npx adversary run ./examples/vulnerable-app
-# or after clone
-npm install && npm run build
-node dist/cli/index.js run ./examples/vulnerable-app
+/adversary full       # auto-picks modes for this stack
+/adversary api        # API boundaries
+/adversary security   # auth, IDOR, rate limits
+/adversary mutation   # do your tests catch tiny bugs?
 ```
 
 ---
 
-## Quick start
+## Try it in 60 seconds
 
 ```bash
 git clone https://github.com/Jasowills/adversary
 cd adversary
-npm install
-npm run build
-npm test
+npm install && npm run build && npm test
 
-# Attack the deliberately vulnerable demo
-node dist/cli/index.js run ./examples/vulnerable-app
+# Hit the deliberately broken demo
+npx adversary-qa run ./examples/vulnerable-app
 
-# Inspect reports
+# Reports
 cat ./examples/vulnerable-app/adversary-results/report.json
 open ./examples/vulnerable-app/adversary-results/report.html
-cat ./examples/vulnerable-app/adversary-results/report.txt
 ```
 
-## Example output
+You'll get:
 
 ```
-  ADVERSARY v0.1 — attacking ./examples/vulnerable-app
-  mode=full  results=./examples/vulnerable-app/adversary-results
-
 ╭─────────────────────────────────────╮
 │           ADVERSARY QA              │
-│                                     │
-│  Scenarios:  15                      │
-│  Assertions: 35                      │
-│  Mutations:  2 (1 caught, 1 survived)│
-│                                     │
-│  Critical: 0                         │
-│  High:     2                         │
-│  Medium:   2                         │
-│  Low:      0                         │
-│                                     │
-│  VERDICT: NOT READY                  │
+│  Scenarios:  15  Assertions: 35     │
+│  Mutations:  2 (1 caught, 1 survived) │
+│  Critical: 0  High: 2  Medium: 2  Low: 0 │
+│  VERDICT: NOT_READY                 │
 ╰─────────────────────────────────────╯
 ```
 
-Findings (real, evidence-backed):
+Real findings from that demo:
 
-- **ADV-0001 HIGH** — Duplicate order creation under concurrent POST (idempotency missing)
-- **ADV-0002 HIGH** — IDOR — `GET /api/orders/:id` returns 200 without auth
-- **ADV-0003 MEDIUM** — Stack trace leak on malformed JSON
-- **ADV-0004 MEDIUM** — Survived mutant `qty > 0 → qty >= 0` (zero-qty blind spot)
+- **ADV-0001 HIGH** — two concurrent `POST /api/orders` creates two orders (no idempotency)
+- **ADV-0002 HIGH** — `GET /api/orders/:id` returns 200 without any auth check
+- **ADV-0003 MEDIUM** — malformed JSON leaks a stack trace
+- **ADV-0004 MEDIUM** — mutant `qty > 0 → qty >= 0` survives (zero-qty order has no test)
 
-Each finding includes `finding.json`, `reproduction.md`, traces and logs under `adversary-results/findings/ADV-xxxx/`.
+Each lives under `adversary-results/findings/ADV-0001/{finding.json,reproduction.md,logs}` so you can rerun it.
 
-Machine report: `report.json` · Human report: `report.txt` · HTML: `report.html`
+```bash
+npx adversary-qa reproduce ADV-0001 ./examples/vulnerable-app
+```
 
 ---
 
 ## How it works
 
 ```
-DISCOVER → UNDERSTAND → PLAN → CREATE SANDBOX → BASELINE → ATTACK → OBSERVE → REPRODUCE → REPORT → (FIX → RETEST)
+DISCOVER → UNDERSTAND → PLAN → SANDBOX → BASELINE → ATTACK → OBSERVE → REPRODUCE → REPORT
 ```
 
-| Stage | What happens |
+| Step | What happens |
 |---|---|
-| **Discover** | Reads README, package manifests, routes, DB schemas, auth, Docker, tests, frontend pages |
-| **Understand** | Separates `KNOWN / INFERRED / ASSUMPTION / UNKNOWN` — never silently promotes guesses |
-| **Plan** | Risk-based strategy for *this* app (payments ≠ todo list) |
-| **Sandbox** | Disposable Docker/process isolation (`create → start → reset → execute → collect → destroy`) |
-| **Baseline** | Build, boot, health check, existing tests — recorded separately |
-| **Attack** | User sequences, API boundaries, security checks, chaos, mutation |
-| **Observe** | Collect request traces, DB snapshots, logs, screenshots |
-| **Reproduce** | `ADV-0001` with deterministic steps |
-| **Report** | `READY / NOT_READY / BLOCKED / INCONCLUSIVE` + evidence |
+| Discover | Reads your README, manifests, routes, DB schemas, auth, Docker, tests |
+| Understand | Sorts behavior into `KNOWN / INFERRED / ASSUMPTION / UNKNOWN` — never pretends a guess is a requirement |
+| Plan | Risk-based — auth and payments get hammered, a utils lib gets a light pass |
+| Sandbox | Starts your app on a random port (or Docker if you have compose) and isolates it |
+| Baseline | Builds, boots, hits `/health`, records existing test health |
+| Attack | Runs user sequences, API edge cases, security checks, a little chaos, a few mutants |
+| Observe | Saves requests, responses, DB rows, logs, screenshots |
+| Report | `READY / NOT_READY / BLOCKED / INCONCLUSIVE` — only from actual evidence |
 
-```
-                     ADVERSARY
-                         |
-          +--------------+--------------+
-          |              |              |
-      Agent Skill       CLI          Sandbox
-          |              |              |
-      Claude/OpenCode   npx       Docker/Browser
-          |              |              |
-          +--------------+--------------+
-                         |
-                   QA Engine
-                         |
-          +--------------+--------------+
-          |              |              |
-        User           API          Security
-       Testing        Testing        Testing
-          |              |              |
-          +--------------+--------------+
-                         |
-                  Evidence Engine
-                         |
-                  Findings / Reports
-                         |
-             GitHub / CI / Developer
-```
+Principle: AI proposes hypotheses, tools execute, evidence decides.
 
 ---
 
 ## CLI
 
 ```bash
-adversary init [path]              # no config needed for v0.1
-adversary inspect [path]           # show stack + app map
-adversary run [path] --mode full   # full | api | browser | security | chaos | mutation | user
+adversary inspect [path]          # stack + app map
+adversary run [path] --mode full  # full | api | browser | security | chaos | mutation | user
 adversary reproduce ADV-0001 [path]
 adversary report [path]
 adversary clean [path]
@@ -225,97 +149,38 @@ adversary clean [path]
 ## Architecture
 
 ```
-adversary/
-├── skills/adversary/
-│   ├── SKILL.md
-│   ├── references/   qa-principles, user/browser/api/security/chaos/mutation/evidence
-│   └── scripts/      detect-stack, collect-results, generate-report
-├── src/
-│   ├── discovery/    stack detection + app map
-│   ├── sandbox/      Docker/process isolation
-│   ├── evidence/     Finding schema (Zod) + store
-│   ├── reporting/    verdict + JSON/HTML/terminal
-│   ├── core/         run orchestrator + verdict
-│   └── cli/          commander CLI
-├── examples/vulnerable-app  7 intentional bugs
-├── tests/            vitest
-└── .github/workflows ci + release
+skills/adversary/SKILL.md + references/   # the skill your agent reads
+src/{discovery,sandbox,evidence,reporting,core,cli}  # the engine (TypeScript + Zod)
+examples/vulnerable-app                    # 7 intentional bugs, proof the engine works
+tests/                                   # vitest
 ```
 
-Key principle:
-
-```
-AI = hypothesis + reasoning
-Tools = execution (pytest, vitest, curl, Playwright, docker)
-Evidence = ground truth
-AI = interpretation
-```
-
-Never claim a test passed without executing it.
-
----
-
-## Vulnerable demo
-
-`examples/vulnerable-app` is a tiny Express app with 7 intentional bugs (see its README). Adversary finds 3-4 on every run — proof the engine is real.
-
-```bash
-node dist/cli/index.js run ./examples/vulnerable-app --mode api
-node dist/cli/index.js reproduce ADV-0001 ./examples/vulnerable-app
-```
+No giant framework. Just a small engine that can be called from a skill, a CLI, or CI.
 
 ---
 
 ## Roadmap
 
-- **v0.1** — Agent Skill, sandbox, API/security/mutation basics, evidence, reports, vulnerable demo ✓
-- **v0.2** — Full Playwright browser harness, Docker chaos injection, Stryker mutation, finding replay, GitHub Action
-- **v0.3** — Multi-agent verification, persistent QA memory, regression corpus, auto fix/retest loop
-- **v0.4** — Benchmark coding agents (survival rates), public QA benchmark
-- **v1.0** — Production-grade autonomous QA laboratory
-
----
-
-## Publishing & distribution (maintainers)
-
-We do **not** publish automatically. Prepare, then publish deliberately:
-
-```bash
-# 1. GitHub
-gh repo create Jasowills/adversary --public --source=. --remote=origin
-git push -u origin main
-
-# 2. Test Claude plugin
-claude --plugin-dir .   # then /adversary
-
-# 3. npm — inspect first
-npm pack --dry-run
-npm publish --access public   # requires NPM_TOKEN
-
-# 4. Release
-git tag v0.1.0 && git push origin v0.1.0
-gh release create v0.1.0 --notes-file CHANGELOG.md
-
-# 5. Marketplace
-# .claude-plugin/marketplace.json already points at this repo
-```
-
-Requires credentials: `NPM_TOKEN`, GitHub repo creation, marketplace review.
+- **0.1** — Skill, sandbox, API/security/mutation basics, evidence, reports, demo ✓
+- **0.2** — Real Playwright browser harness, Docker chaos, Stryker mutation, GitHub Action with PR comments
+- **0.3** — Multi-agent checks, QA memory, fix/retest loop
+- **0.4** — Benchmarks for coding agents
+- **1.0** — Lab-grade autonomous QA
 
 ---
 
 ## Contributing
 
-See `CONTRIBUTING.md`. Keep PRs evidence-driven.
+See `CONTRIBUTING.md`. PRs should include evidence — what broke, how you reproduced it.
 
 ## License
 
-MIT — see `LICENSE`.
+MIT — `LICENSE`
 
 ## Security
 
-See `SECURITY.md`. Report vulnerabilities in Adversary itself privately via GitHub Security Advisories.
+Found a bug in Adversary itself? Don't open a public issue. Email `jasowills01@gmail.com` or use GitHub Security Advisories. The `examples/vulnerable-app` is intentionally broken — don't report those.
 
 ---
 
-*Adversary makes one promise: if it says READY, it has evidence. If it says NOT_READY, it can prove why.*
+*If it says READY, it can prove it. If it says NOT_READY, it will show you exactly where.*
