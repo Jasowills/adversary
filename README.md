@@ -70,6 +70,14 @@ npx skills add Jasowills/adversary -g -y
 npx skills add Jasowills/adversary --list
 ```
 
+**One-liner via adversary-qa (like `npx impeccable install`):**
+
+```bash
+npx adversary-qa install
+# or globally: npx adversary-qa install -g -y
+# equivalent to `npx skills add Jasowills/adversary`
+```
+
 **Claude Code plugin (alternative):**
 
 ```bash

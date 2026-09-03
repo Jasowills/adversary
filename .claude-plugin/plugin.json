@@ -1,6 +1,6 @@
 {
   "name": "adversary",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Adversarial QA for AI-generated software — the QA engineer your coding agent can't fool.",
   "author": {
     "name": "Adversary Contributors",

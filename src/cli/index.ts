@@ -119,4 +119,30 @@ program
     }
   });
 
+program
+  .command("install")
+  .description("Install Adversary skill (like `npx impeccable install`)")
+  .option("-g, --global", "install globally (~/.claude/skills etc.)")
+  .option("-a, --agent <agents...>", "target agents (e.g. claude-code, opencode, cursor)")
+  .option("-y, --yes", "skip confirmation prompts")
+  .option("--copy", "copy files instead of symlinking")
+  .action(async (opts) => {
+    const { spawn } = await import("node:child_process");
+    const args = ["--yes", "skills", "add", "Jasowills/adversary"];
+    if (opts.global) args.push("-g");
+    if (opts.agent) {
+      const agents = Array.isArray(opts.agent) ? opts.agent : [opts.agent];
+      for (const a of agents) args.push("-a", a);
+    }
+    if (opts.copy) args.push("--copy");
+    if (opts.yes) args.push("-y");
+    console.log(`\n  Installing Adversary skill via: npx ${args.join(" ")}\n`);
+    const proc = spawn("npx", args, { stdio: "inherit" });
+    await new Promise((res, rej) => {
+      proc.on("close", (code) => (code === 0 ? res(null) : rej(new Error(`skills add failed (${code})`))));
+      proc.on("error", rej);
+    });
+    console.log(`\n  ✓ Adversary installed. Try: /adversary full\n`);
+  });
+
 program.parse();
