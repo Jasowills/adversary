@@ -1,5 +1,7 @@
 # Adversary
 
+[![skills.sh](https://skills.sh/b/Jasowills/adversary)](https://skills.sh/Jasowills/adversary)
+
 ### The QA engineer your coding agent can't fool.
 
 Your AI agent wrote the code.
